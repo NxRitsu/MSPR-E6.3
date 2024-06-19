@@ -107,9 +107,12 @@ CREATE TABLE `Conf` (
   `IDConf` int(11) NOT NULL AUTO_INCREMENT,
   `CPU` varchar(255) DEFAULT NULL,
   `RAM` int(11) DEFAULT NULL,
+  `IDDisque` int(11) DEFAULT NULL,
   PRIMARY KEY (`IDConf`),
-  UNIQUE KEY `IDConf` (`IDConf`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  UNIQUE KEY `IDConf` (`IDConf`),
+  KEY `Conf_Disque_FK` (`IDDisque`),
+  CONSTRAINT `Conf_Disque_FK` FOREIGN KEY (`IDDisque`) REFERENCES `Disque` (`IDDisque`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -118,6 +121,11 @@ CREATE TABLE `Conf` (
 
 LOCK TABLES `Conf` WRITE;
 /*!40000 ALTER TABLE `Conf` DISABLE KEYS */;
+INSERT INTO `Conf` VALUES
+(1,'Intel Core i7-11700K',32,4),
+(2,'AMD Ryzen 9 5900X',8,5),
+(3,'Intel Core i5-10600K',16,1),
+(4,'Intel Core i3-10100',8,3);
 /*!40000 ALTER TABLE `Conf` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -140,7 +148,7 @@ CREATE TABLE `Contrat` (
   KEY `IDEntreprise` (`IDEntreprise`),
   CONSTRAINT `Contrat_ibfk_1` FOREIGN KEY (`NumSerie`) REFERENCES `Instance` (`NumSerie`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `Contrat_ibfk_2` FOREIGN KEY (`IDEntreprise`) REFERENCES `Entreprise` (`IDEntreprise`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -149,6 +157,9 @@ CREATE TABLE `Contrat` (
 
 LOCK TABLES `Contrat` WRITE;
 /*!40000 ALTER TABLE `Contrat` DISABLE KEYS */;
+INSERT INTO `Contrat` VALUES
+(1,'2024-06-02','2025-06-02',7,'CD142ZE'),
+(2,'2023-12-10','2026-12-31',8,'HY698XS');
 /*!40000 ALTER TABLE `Contrat` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -162,7 +173,7 @@ DROP TABLE IF EXISTS `Deploiement`;
 CREATE TABLE `Deploiement` (
   `IDDeploiement` int(11) NOT NULL AUTO_INCREMENT,
   `AdresseDeploiement` varchar(255) DEFAULT NULL,
-  `DateDeploiement` varchar(255) DEFAULT NULL,
+  `DateDeploiement` date DEFAULT NULL,
   `NumSerie` varchar(255) DEFAULT NULL,
   `IDEntreprise` int(11) DEFAULT NULL,
   `IDTechnicien` int(11) DEFAULT NULL,
@@ -174,7 +185,7 @@ CREATE TABLE `Deploiement` (
   CONSTRAINT `Deploiement_ibfk_1` FOREIGN KEY (`NumSerie`) REFERENCES `Instance` (`NumSerie`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `Deploiement_ibfk_2` FOREIGN KEY (`IDEntreprise`) REFERENCES `Entreprise` (`IDEntreprise`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `Deploiement_ibfk_3` FOREIGN KEY (`IDTechnicien`) REFERENCES `Technicien` (`IDTechnicien`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -183,6 +194,9 @@ CREATE TABLE `Deploiement` (
 
 LOCK TABLES `Deploiement` WRITE;
 /*!40000 ALTER TABLE `Deploiement` DISABLE KEYS */;
+INSERT INTO `Deploiement` VALUES
+(1,'123 Peachtree Street NE, Atlanta, GA 30303, USA','2024-06-10','CD142ZE',7,1),
+(2,'500 Woodward Avenue, Detroit, MI 48226, USA','2023-12-24','HY698XS',8,2);
 /*!40000 ALTER TABLE `Deploiement` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -196,14 +210,11 @@ DROP TABLE IF EXISTS `Disque`;
 CREATE TABLE `Disque` (
   `IDDisque` int(11) NOT NULL AUTO_INCREMENT,
   `TypeDisque` varchar(255) DEFAULT NULL,
-  `TailleDisque` int(11) DEFAULT NULL,
+  `TailleDisque` bigint(20) DEFAULT NULL,
   `Quantité` int(11) DEFAULT NULL,
-  `IDConf` int(11) DEFAULT NULL,
   PRIMARY KEY (`IDDisque`),
-  UNIQUE KEY `IDDisque` (`IDDisque`),
-  KEY `IDConf` (`IDConf`),
-  CONSTRAINT `Disque_ibfk_1` FOREIGN KEY (`IDConf`) REFERENCES `Conf` (`IDConf`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  UNIQUE KEY `IDDisque` (`IDDisque`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -212,6 +223,12 @@ CREATE TABLE `Disque` (
 
 LOCK TABLES `Disque` WRITE;
 /*!40000 ALTER TABLE `Disque` DISABLE KEYS */;
+INSERT INTO `Disque` VALUES
+(1,'SSD',125,1),
+(2,'HDD',1000,1),
+(3,'HDD',500,2),
+(4,'NVMe',250,4),
+(5,'SSD',1000,2);
 /*!40000 ALTER TABLE `Disque` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -257,7 +274,6 @@ CREATE TABLE `Entreprise` (
   `IDEntreprise` int(11) NOT NULL AUTO_INCREMENT,
   `Nom` varchar(255) DEFAULT NULL,
   `AdresseSiege` varchar(255) DEFAULT NULL,
-  `AdresseDeploiement` varchar(255) DEFAULT NULL,
   `SIRET` varchar(255) DEFAULT NULL,
   `ContactPrincipal` varchar(255) DEFAULT NULL,
   `IDDeploiement` int(11) DEFAULT NULL,
@@ -273,24 +289,24 @@ CREATE TABLE `Entreprise` (
 LOCK TABLES `Entreprise` WRITE;
 /*!40000 ALTER TABLE `Entreprise` DISABLE KEYS */;
 INSERT INTO `Entreprise` VALUES
-(1,'NFL-IT','1234 Rue Kansas City, Kansas City, MO, États-Unis','10 Rue de Lille, 59100 Roubaix, France','12345678901234','john.smith@nfl-it.com',NULL),
-(2,'Google France','8 Rue de Londres, 75009 Paris, France','4 Rue de Londres, 75009 Paris, France','44306184100043','contact@google.fr',NULL),
-(3,'Amazon France','67 Boulevard du Général Leclerc, 92110 Clichy, France','31 Rue des Deux Gares, 75010 Paris, France','43180379000049','contact@amazon.fr',NULL),
-(4,'Microsoft Corporation','One Microsoft Way, Redmond, WA 98052, États-Unis','1290 Avenue of the Americas, New York, NY 10104, États-Unis','77566230700090','contact@microsoft.com',NULL),
-(5,'Apple Inc','One Apple Park Way, Cupertino, CA 95014, États-Unis','767 Fifth Avenue, New York, NY 10153, États-Unis','61685464700017','contact@apple.com',NULL),
-(6,'Tesla France','18 Rue de l\'Université, 75007 Paris, France','10 Avenue Georges V, 75008 Paris, France','80522538500019','contact@tesla.fr',NULL),
-(7,'Atlanta Falcon','1 Letterman Dr, Atlanta, USA','2 Marina Blvd, Atlanta, USA','98765432101234','george.lucas@falcon.com',NULL),
-(8,'Detroit Lions','1200 Park Ave, Detroit, USA','5000 Hollis St, Detroit, USA','87654321012345','ed.catmull@detroit.com',NULL),
-(9,'Carrefour','93 Avenue de Paris, 91300 Massy, France','33 Rue Carnot, 94270 Le Kremlin-Bicêtre, France','38456067800035','pierre.durand@carrefour.com',NULL),
-(10,'BNP Paribas','16 Boulevard des Italiens, 75009 Paris, France','14 Rue Bergère, 75009 Paris, France','54201607400089','marie.curie@bnpparibas.com',NULL),
-(11,'L\'Oréal','41 Rue Martre, 92110 Clichy, France','14 Rue Royale, 75008 Paris, France','63201210000150','sophie.martin@loreal.com',NULL),
-(12,'Renault','13-15 Quai Alphonse le Gallo, 92100 Boulogne-Billancourt, France','1 Avenue du Golf, 78288 Guyancourt, France','78012998712345','jean.valjean@renault.com',NULL),
-(13,'Boeing','100 N Riverside Plaza, Chicago, IL 60606, USA','200 S Wacker Dr, Chicago, IL 60606, USA','12345678912345','alice.jones@boeing.com',NULL),
-(14,'Starbucks','2401 Utah Ave S, Seattle, WA 98134, USA','2022 S Jackson St, Seattle, WA 98144, USA','23456789123456','bob.smith@starbucks.com',NULL),
-(15,'Walt Disney Company','500 S Buena Vista St, Burbank, CA 91521, USA','1313 Disneyland Dr, Anaheim, CA 92802, USA','34567891234567','mickey.mouse@disney.com',NULL),
-(16,'Netflix','100 Winchester Cir, Los Gatos, CA 95032, USA','5808 Sunset Blvd, Los Angeles, CA 90028, USA','45678912345678','reed.hastings@netflix.com',NULL),
-(17,'SpaceX','1 Rocket Rd, Hawthorne, CA 90250, USA','881 L Street, Mountain View, CA 94043, USA','56789123456789','elon.musk@spacex.com',NULL),
-(18,'SolarCity','3055 Clearview Way, San Mateo, CA 94402, USA','351 W Evelyn Ave, Mountain View, CA 94041, USA','67891234567890','lyndon.rive@solarcity.com',NULL);
+(1,'NFL-IT','1234 Rue Kansas City, Kansas City, MO, États-Unis','12345678901234','john.smith@nfl-it.com',NULL),
+(2,'Google France','8 Rue de Londres, 75009 Paris, France','44306184100043','contact@google.fr',NULL),
+(3,'Amazon France','67 Boulevard du Général Leclerc, 92110 Clichy, France','43180379000049','contact@amazon.fr',NULL),
+(4,'Microsoft Corporation','One Microsoft Way, Redmond, WA 98052, États-Unis','77566230700090','contact@microsoft.com',NULL),
+(5,'Apple Inc','One Apple Park Way, Cupertino, CA 95014, États-Unis','61685464700017','contact@apple.com',NULL),
+(6,'Tesla France','18 Rue de l\'Université, 75007 Paris, France','80522538500019','contact@tesla.fr',NULL),
+(7,'Atlanta Falcon','1 Letterman Dr, Atlanta, USA','98765432101234','george.lucas@falcon.com',NULL),
+(8,'Detroit Lions','1200 Park Ave, Detroit, USA','87654321012345','ed.catmull@detroit.com',NULL),
+(9,'Carrefour','93 Avenue de Paris, 91300 Massy, France','38456067800035','pierre.durand@carrefour.com',NULL),
+(10,'BNP Paribas','16 Boulevard des Italiens, 75009 Paris, France','54201607400089','marie.curie@bnpparibas.com',NULL),
+(11,'L\'Oréal','41 Rue Martre, 92110 Clichy, France','63201210000150','sophie.martin@loreal.com',NULL),
+(12,'Renault','13-15 Quai Alphonse le Gallo, 92100 Boulogne-Billancourt, France','78012998712345','jean.valjean@renault.com',NULL),
+(13,'Boeing','100 N Riverside Plaza, Chicago, IL 60606, USA','12345678912345','alice.jones@boeing.com',NULL),
+(14,'Starbucks','2401 Utah Ave S, Seattle, WA 98134, USA','23456789123456','bob.smith@starbucks.com',NULL),
+(15,'Walt Disney Company','500 S Buena Vista St, Burbank, CA 91521, USA','34567891234567','mickey.mouse@disney.com',NULL),
+(16,'Netflix','100 Winchester Cir, Los Gatos, CA 95032, USA','45678912345678','reed.hastings@netflix.com',NULL),
+(17,'SpaceX','1 Rocket Rd, Hawthorne, CA 90250, USA','56789123456789','elon.musk@spacex.com',NULL),
+(18,'SolarCity','3055 Clearview Way, San Mateo, CA 94402, USA','67891234567890','lyndon.rive@solarcity.com',NULL);
 /*!40000 ALTER TABLE `Entreprise` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -312,17 +328,17 @@ CREATE TABLE `Instance` (
   `NumeroLicence` varchar(255) DEFAULT NULL,
   `MaterielFourniParNFL` tinyint(1) DEFAULT NULL,
   `MaterielRecupere` tinyint(1) DEFAULT NULL,
-  `IDInstance_script` int(11) DEFAULT NULL,
   `IDDeploiement` int(11) DEFAULT NULL,
-  `IDEntreprise` int(11) DEFAULT NULL,
+  `IDEntrepriseClient` int(11) DEFAULT NULL,
+  `IDConf` int(11) DEFAULT NULL,
   PRIMARY KEY (`NumSerie`),
   UNIQUE KEY `NumSerie` (`NumSerie`),
-  KEY `IDInstance_script` (`IDInstance_script`),
   KEY `IDDeploiement` (`IDDeploiement`),
-  KEY `IDEntreprise` (`IDEntreprise`),
-  CONSTRAINT `Instance_ibfk_1` FOREIGN KEY (`IDInstance_script`) REFERENCES `Instance_Script` (`IDInstance_script`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  KEY `IDEntreprise` (`IDEntrepriseClient`),
+  KEY `Instance_Conf_FK` (`IDConf`),
+  CONSTRAINT `Instance_Conf_FK` FOREIGN KEY (`IDConf`) REFERENCES `Conf` (`IDConf`),
   CONSTRAINT `Instance_ibfk_2` FOREIGN KEY (`IDDeploiement`) REFERENCES `Deploiement` (`IDDeploiement`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `Instance_ibfk_3` FOREIGN KEY (`IDEntreprise`) REFERENCES `Entreprise` (`IDEntreprise`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `Instance_ibfk_3` FOREIGN KEY (`IDEntrepriseClient`) REFERENCES `Entreprise` (`IDEntreprise`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -332,6 +348,9 @@ CREATE TABLE `Instance` (
 
 LOCK TABLES `Instance` WRITE;
 /*!40000 ALTER TABLE `Instance` DISABLE KEYS */;
+INSERT INTO `Instance` VALUES
+('CD142ZE','HarvesterAtlanta','192.168.1.10','10.0.10.1','V2.0','Debian 12.5','Connectée','59731542',1,0,1,7,2),
+('HY698XS','HarvesterDetroit','192.168.20.47','10.0.0.20','V2.2','Windows 10','Connectée','24835572',1,0,2,8,1);
 /*!40000 ALTER TABLE `Instance` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -343,12 +362,12 @@ DROP TABLE IF EXISTS `Instance_Script`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Instance_Script` (
-  `IDInstance_script` int(11) NOT NULL AUTO_INCREMENT,
+  `IDInstance` varchar(255) DEFAULT NULL,
   `IDScript` int(11) DEFAULT NULL,
-  PRIMARY KEY (`IDInstance_script`),
-  UNIQUE KEY `IDInstance_script` (`IDInstance_script`),
-  KEY `IDScript` (`IDScript`),
-  CONSTRAINT `Instance_Script_ibfk_1` FOREIGN KEY (`IDScript`) REFERENCES `Script` (`IDScript`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `Instance_Script_Script_FK` (`IDScript`),
+  KEY `Instance_Script_Instance_FK` (`IDInstance`),
+  CONSTRAINT `Instance_Script_Instance_FK` FOREIGN KEY (`IDInstance`) REFERENCES `Instance` (`NumSerie`),
+  CONSTRAINT `Instance_Script_Script_FK` FOREIGN KEY (`IDScript`) REFERENCES `Script` (`IDScript`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -358,6 +377,9 @@ CREATE TABLE `Instance_Script` (
 
 LOCK TABLES `Instance_Script` WRITE;
 /*!40000 ALTER TABLE `Instance_Script` DISABLE KEYS */;
+INSERT INTO `Instance_Script` VALUES
+('CD142ZE',1),
+('CD142ZE',3);
 /*!40000 ALTER TABLE `Instance_Script` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -435,7 +457,7 @@ CREATE TABLE `Script` (
   `Version` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`IDScript`),
   UNIQUE KEY `IDScript` (`IDScript`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -444,6 +466,15 @@ CREATE TABLE `Script` (
 
 LOCK TABLES `Script` WRITE;
 /*!40000 ALTER TABLE `Script` DISABLE KEYS */;
+INSERT INTO `Script` VALUES
+(1,'HarvesterDEB.py','V2.5'),
+(2,'HarvesterWIN10.py','V1.0.1'),
+(3,'UpdateHarvesterDEB.py','V1'),
+(4,'UpdateHarvesterWIN10.py','V2.1'),
+(5,'ExportDataXMLDEB.py','V1.0'),
+(6,'ExportDataWIN10.py','V1.2'),
+(7,'ScanNetwork.py','V3.0'),
+(8,'SpeedTest.py','V1.5');
 /*!40000 ALTER TABLE `Script` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -459,7 +490,7 @@ CREATE TABLE `Technicien` (
   `Nom` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`IDTechnicien`),
   UNIQUE KEY `IDTechnicien` (`IDTechnicien`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -470,7 +501,9 @@ LOCK TABLES `Technicien` WRITE;
 /*!40000 ALTER TABLE `Technicien` DISABLE KEYS */;
 INSERT INTO `Technicien` VALUES
 (1,'Michel '),
-(2,'Sophie');
+(2,'Sophie'),
+(3,'Anthony'),
+(4,'Céline');
 /*!40000 ALTER TABLE `Technicien` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -487,4 +520,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-19 10:01:48
+-- Dump completed on 2024-06-19 15:43:15
