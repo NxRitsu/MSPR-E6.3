@@ -112,7 +112,7 @@ CREATE TABLE `Conf` (
   UNIQUE KEY `IDConf` (`IDConf`),
   KEY `Conf_Disque_FK` (`IDDisque`),
   CONSTRAINT `Conf_Disque_FK` FOREIGN KEY (`IDDisque`) REFERENCES `Disque` (`IDDisque`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -125,7 +125,15 @@ INSERT INTO `Conf` VALUES
 (1,'Intel Core i7-11700K',32,4),
 (2,'AMD Ryzen 9 5900X',8,5),
 (3,'Intel Core i5-10600K',16,1),
-(4,'Intel Core i3-10100',8,3);
+(4,'Intel Core i3-10100',8,3),
+(5,'Intel Core i7-10700K,',16,8),
+(6,'AMD Ryzen 9 5900X',32,10),
+(7,'Intel Core i5-11600K',16,14),
+(8,'AMD Ryzen 7 5800X',16,11),
+(9,'Intel Core i9-11900K',32,13),
+(10,'AMD Ryzen 5 5600X',16,6),
+(11,'Intel Core i7-11700K',32,9),
+(12,'AMD Ryzen 9 5950X',64,12);
 /*!40000 ALTER TABLE `Conf` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -148,7 +156,7 @@ CREATE TABLE `Contrat` (
   KEY `IDEntreprise` (`IDEntreprise`),
   CONSTRAINT `Contrat_ibfk_1` FOREIGN KEY (`NumSerie`) REFERENCES `Instance` (`NumSerie`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `Contrat_ibfk_2` FOREIGN KEY (`IDEntreprise`) REFERENCES `Entreprise` (`IDEntreprise`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -159,7 +167,17 @@ LOCK TABLES `Contrat` WRITE;
 /*!40000 ALTER TABLE `Contrat` DISABLE KEYS */;
 INSERT INTO `Contrat` VALUES
 (1,'2024-06-02','2025-06-02',7,'CD142ZE'),
-(2,'2023-12-10','2026-12-31',8,'HY698XS');
+(2,'2023-12-10','2026-12-31',8,'HY698XS'),
+(3,'2021-12-15','2023-09-29',9,'LG627ER'),
+(4,'2024-01-23','2026-07-12',10,'FC287W'),
+(5,'2023-07-21','2025-11-05',11,'NJ987PL'),
+(6,'2023-03-12','2025-09-18',12,'NX200DF'),
+(7,'2021-01-15','2022-11-20',13,'SQ732RE'),
+(8,'2021-04-20','2023-12-03',14,'FT814TY'),
+(9,'2023-02-15','2025-10-30',15,'PM701ZM'),
+(10,'2023-10-28','2026-05-15',16,'FO346RW'),
+(11,'2022-03-30','2024-12-11',17,'EP466SZ'),
+(12,'2021-07-10','2023-02-23',18,'UH944SU');
 /*!40000 ALTER TABLE `Contrat` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -185,7 +203,7 @@ CREATE TABLE `Deploiement` (
   CONSTRAINT `Deploiement_ibfk_1` FOREIGN KEY (`NumSerie`) REFERENCES `Instance` (`NumSerie`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `Deploiement_ibfk_2` FOREIGN KEY (`IDEntreprise`) REFERENCES `Entreprise` (`IDEntreprise`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `Deploiement_ibfk_3` FOREIGN KEY (`IDTechnicien`) REFERENCES `Technicien` (`IDTechnicien`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -196,7 +214,17 @@ LOCK TABLES `Deploiement` WRITE;
 /*!40000 ALTER TABLE `Deploiement` DISABLE KEYS */;
 INSERT INTO `Deploiement` VALUES
 (1,'123 Peachtree Street NE, Atlanta, GA 30303, USA','2024-06-10','CD142ZE',7,1),
-(2,'500 Woodward Avenue, Detroit, MI 48226, USA','2023-12-24','HY698XS',8,2);
+(2,'500 Woodward Avenue, Detroit, MI 48226, USA','2023-12-24','HY698XS',8,2),
+(3,'10 Rue de Rivoli, 75004 Paris, France','2022-01-15','LG627ER',9,4),
+(4,'15 Avenue Montaigne, 75008 Paris, France','2024-02-23','FC287W',10,4),
+(5,'32 Rue des Archives, 75004 Paris, France','2023-08-21','NJ987PL',11,3),
+(6,'12 Rue de l\'Église, 92320 Châtillon, France','2023-04-12','NX200DF',12,1),
+(7,'233 S Wacker Dr, Chicago, IL 60606, USA','2021-02-15','SQ732RE',13,2),
+(8,'701 5th Ave, Seattle, WA 98104, USA','2021-05-20','FT814TY',14,4),
+(9,'500 S Buena Vista St, Burbank, CA 91521, USA','2023-03-15','PM701ZM',15,1),
+(10,'100 Winchester Circle, Los Gatos, CA 95032, USA','2023-11-28','FO346RW',16,2),
+(11,'1 Rocket Road, Hawthorne, CA 90250, USA','2022-04-30','EP466SZ',17,3),
+(12,'3055 Clearview Way, San Mateo, CA 94402, USA','2021-08-10','UH944SU',18,3);
 /*!40000 ALTER TABLE `Deploiement` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -214,7 +242,7 @@ CREATE TABLE `Disque` (
   `Quantité` int(11) DEFAULT NULL,
   PRIMARY KEY (`IDDisque`),
   UNIQUE KEY `IDDisque` (`IDDisque`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -224,11 +252,21 @@ CREATE TABLE `Disque` (
 LOCK TABLES `Disque` WRITE;
 /*!40000 ALTER TABLE `Disque` DISABLE KEYS */;
 INSERT INTO `Disque` VALUES
-(1,'SSD',125,1),
+(1,'SSD',128,1),
 (2,'HDD',1000,1),
 (3,'HDD',500,2),
 (4,'NVMe',250,4),
-(5,'SSD',1000,2);
+(5,'SSD',1000,2),
+(6,'SSD',500,2),
+(7,'HDD',1000,3),
+(8,'SSD',256,1),
+(9,'HDD',2000,4),
+(10,'SSD',128,2),
+(11,'HDD',4000,2),
+(12,'SSD',1000,3),
+(13,'HDD',500,5),
+(14,'NVMe',500,2),
+(15,'NVMe',1000,3);
 /*!40000 ALTER TABLE `Disque` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -350,7 +388,17 @@ LOCK TABLES `Instance` WRITE;
 /*!40000 ALTER TABLE `Instance` DISABLE KEYS */;
 INSERT INTO `Instance` VALUES
 ('CD142ZE','HarvesterAtlanta','192.168.1.10','10.0.10.1','V2.0','Debian 12.5','Connectée','59731542',1,0,1,7,2),
-('HY698XS','HarvesterDetroit','192.168.20.47','10.0.0.20','V2.2','Windows 10','Connectée','24835572',1,0,2,8,1);
+('EP466SZ','HarvesterSpaceX','192.168.80.148','10.0.25.58','V3.7','Windows 10','Connectée','17457420',1,1,11,17,10),
+('FC287W','HarvesterBNPParibas','192.168.10.9','10.0.0.12','V1.0','Debian 11','Connectée','12486970',1,0,4,10,4),
+('FO346RW','HarvesterNetflix','192.168.99.45','10.0.9.15','V3.6','Windows 11','Connectée','69364710',1,1,10,16,11),
+('FT814TY','HarvesterStarbucks','192.168.36.29','10.0.0.28','V1.2','Debian 11','Connectée','65632587',1,1,8,14,8),
+('HY698XS','HarvesterDetroit','192.168.20.47','10.0.0.20','V2.2','Windows 10','Connectée','24835572',1,0,2,8,1),
+('LG627ER','HarvesterCarrefour','192.168.14.10','10.0.0.30','V1.4','Windows 11','Connectée','41387447',1,0,3,9,3),
+('NJ987PL','HarvesterLoreal','192.168.9.17','10.0.0.17','V5','Windows 10','Connectée','95124384',1,0,5,11,5),
+('NX200DF','HarvesterRenault','192.168.80.100','10.0.10.4','V1.4.5','Windows 10','Connectée','74654582',1,0,6,12,7),
+('PM701ZM','HarvesterDisney','192.168.40.187','10.0.0.59','V1','Debian 12.5','Connectée','79544832',1,1,9,15,9),
+('SQ732RE','HarvesterBoeing','192.168.60.25','10.0.74.25','V3.1','Debian 12.5','Connectée','28498699',1,0,7,13,6),
+('UH944SU','HarvesterSolarCity','192.168.11.57','10.0.68.99','V2.4.1','Debian 11','Connectée','98524739',1,1,12,18,12);
 /*!40000 ALTER TABLE `Instance` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -379,7 +427,38 @@ LOCK TABLES `Instance_Script` WRITE;
 /*!40000 ALTER TABLE `Instance_Script` DISABLE KEYS */;
 INSERT INTO `Instance_Script` VALUES
 ('CD142ZE',1),
-('CD142ZE',3);
+('CD142ZE',3),
+('HY698XS',2),
+('HY698XS',4),
+('HY698XS',6),
+('LG627ER',9),
+('LG627ER',10),
+('FC287W',1),
+('FC287W',5),
+('FC287W',7),
+('NJ987PL',2),
+('NX200DF',2),
+('NX200DF',8),
+('SQ732RE',1),
+('SQ732RE',1),
+('SQ732RE',1),
+('SQ732RE',1),
+('FT814TY',3),
+('FT814TY',1),
+('PM701ZM',1),
+('PM701ZM',3),
+('PM701ZM',5),
+('PM701ZM',8),
+('PM701ZM',7),
+('FO346RW',9),
+('FO346RW',10),
+('EP466SZ',2),
+('EP466SZ',4),
+('EP466SZ',6),
+('EP466SZ',8),
+('UH944SU',5),
+('UH944SU',1),
+('UH944SU',3);
 /*!40000 ALTER TABLE `Instance_Script` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -457,7 +536,7 @@ CREATE TABLE `Script` (
   `Version` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`IDScript`),
   UNIQUE KEY `IDScript` (`IDScript`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -472,9 +551,11 @@ INSERT INTO `Script` VALUES
 (3,'UpdateHarvesterDEB.py','V1'),
 (4,'UpdateHarvesterWIN10.py','V2.1'),
 (5,'ExportDataXMLDEB.py','V1.0'),
-(6,'ExportDataWIN10.py','V1.2'),
+(6,'ExportDataXMLWIN10.py','V1.2'),
 (7,'ScanNetwork.py','V3.0'),
-(8,'SpeedTest.py','V1.5');
+(8,'SpeedTest.py','V1.5'),
+(9,'HarvesterWIN11.py','V1.1'),
+(10,'UpdateHarvesterWIN11.py','V1.1');
 /*!40000 ALTER TABLE `Script` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -520,4 +601,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-19 15:43:15
+-- Dump completed on 2024-06-19 21:50:58
