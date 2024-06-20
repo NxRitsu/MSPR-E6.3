@@ -173,7 +173,7 @@ INSERT INTO `Contrat` VALUES
 (5,'2023-07-21','2025-11-05',11,'NJ987PL'),
 (6,'2023-03-12','2025-09-18',12,'NX200DF'),
 (7,'2021-01-15','2022-11-20',13,'SQ732RE'),
-(8,'2021-04-20','2023-12-03',14,'FT814TY'),
+(8,'2021-04-20','2024-06-19',14,'FT814TY'),
 (9,'2023-02-15','2025-10-30',15,'PM701ZM'),
 (10,'2023-10-28','2026-05-15',16,'FO346RW'),
 (11,'2022-03-30','2024-12-11',17,'EP466SZ'),
@@ -289,7 +289,7 @@ CREATE TABLE `Dysfonctionnement` (
   KEY `NumSerie` (`NumSerie`),
   CONSTRAINT `Dysfonctionnement_ibfk_1` FOREIGN KEY (`IDTechnicien`) REFERENCES `Technicien` (`IDTechnicien`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `Dysfonctionnement_ibfk_2` FOREIGN KEY (`NumSerie`) REFERENCES `Instance` (`NumSerie`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -298,6 +298,9 @@ CREATE TABLE `Dysfonctionnement` (
 
 LOCK TABLES `Dysfonctionnement` WRITE;
 /*!40000 ALTER TABLE `Dysfonctionnement` DISABLE KEYS */;
+INSERT INTO `Dysfonctionnement` VALUES
+(1,'Arrêt du Harvester','2024-04-16 14:32:12','PM701ZM',4),
+(2,'Speedtest ne marche pas','2023-09-21 09:02:55','NJ987PL',2);
 /*!40000 ALTER TABLE `Dysfonctionnement` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -388,16 +391,16 @@ LOCK TABLES `Instance` WRITE;
 /*!40000 ALTER TABLE `Instance` DISABLE KEYS */;
 INSERT INTO `Instance` VALUES
 ('CD142ZE','HarvesterAtlanta','192.168.1.10','10.0.10.1','V2.0','Debian 12.5','Connectée','59731542',1,0,1,7,2),
-('EP466SZ','HarvesterSpaceX','192.168.80.148','10.0.25.58','V3.7','Windows 10','Connectée','17457420',1,1,11,17,10),
+('EP466SZ','HarvesterSpaceX','192.168.80.148','10.0.25.58','V3.7','Windows 10','Connectée','17457420',1,0,11,17,10),
 ('FC287W','HarvesterBNPParibas','192.168.10.9','10.0.0.12','V1.0','Debian 11','Connectée','12486970',1,0,4,10,4),
-('FO346RW','HarvesterNetflix','192.168.99.45','10.0.9.15','V3.6','Windows 11','Connectée','69364710',1,1,10,16,11),
-('FT814TY','HarvesterStarbucks','192.168.36.29','10.0.0.28','V1.2','Debian 11','Connectée','65632587',1,1,8,14,8),
+('FO346RW','HarvesterNetflix','192.168.99.45','10.0.9.15','V3.6','Windows 11','Connectée','69364710',1,0,10,16,11),
+('FT814TY','HarvesterStarbucks','192.168.36.29','10.0.0.28','V1.2','Debian 11','Connectée','65632587',1,0,8,14,8),
 ('HY698XS','HarvesterDetroit','192.168.20.47','10.0.0.20','V2.2','Windows 10','Connectée','24835572',1,0,2,8,1),
-('LG627ER','HarvesterCarrefour','192.168.14.10','10.0.0.30','V1.4','Windows 11','Connectée','41387447',1,0,3,9,3),
+('LG627ER','HarvesterCarrefour','192.168.14.10','10.0.0.30','V1.4','Windows 11','Connectée','41387447',1,1,3,9,3),
 ('NJ987PL','HarvesterLoreal','192.168.9.17','10.0.0.17','V5','Windows 10','Connectée','95124384',1,0,5,11,5),
 ('NX200DF','HarvesterRenault','192.168.80.100','10.0.10.4','V1.4.5','Windows 10','Connectée','74654582',1,0,6,12,7),
-('PM701ZM','HarvesterDisney','192.168.40.187','10.0.0.59','V1','Debian 12.5','Connectée','79544832',1,1,9,15,9),
-('SQ732RE','HarvesterBoeing','192.168.60.25','10.0.74.25','V3.1','Debian 12.5','Connectée','28498699',1,0,7,13,6),
+('PM701ZM','HarvesterDisney','192.168.40.187','10.0.0.59','V1','Debian 12.5','Connectée','79544832',1,0,9,15,9),
+('SQ732RE','HarvesterBoeing','192.168.60.25','10.0.74.25','V3.1','Debian 12.5','Connectée','28498699',1,1,7,13,6),
 ('UH944SU','HarvesterSolarCity','192.168.11.57','10.0.68.99','V2.4.1','Debian 11','Connectée','98524739',1,1,12,18,12);
 /*!40000 ALTER TABLE `Instance` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -511,7 +514,7 @@ CREATE TABLE `Redemarrage` (
   UNIQUE KEY `IDRedemarrage` (`IDRedemarrage`),
   KEY `NumSerie` (`NumSerie`),
   CONSTRAINT `Redemarrage_ibfk_1` FOREIGN KEY (`NumSerie`) REFERENCES `Instance` (`NumSerie`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -520,6 +523,8 @@ CREATE TABLE `Redemarrage` (
 
 LOCK TABLES `Redemarrage` WRITE;
 /*!40000 ALTER TABLE `Redemarrage` DISABLE KEYS */;
+INSERT INTO `Redemarrage` VALUES
+(1,'2024-04-16 15:17:46','Redémarrage suite à l\'arret du Harvester','PM701ZM');
 /*!40000 ALTER TABLE `Redemarrage` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -601,4 +606,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-19 21:50:58
+-- Dump completed on 2024-06-20 11:34:17
