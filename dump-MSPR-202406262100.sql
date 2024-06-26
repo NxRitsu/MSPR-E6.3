@@ -193,15 +193,12 @@ CREATE TABLE `Deploiement` (
   `AdresseDeploiement` varchar(255) DEFAULT NULL,
   `DateDeploiement` date DEFAULT NULL,
   `NumSerie` varchar(255) DEFAULT NULL,
-  `IDEntreprise` int(11) DEFAULT NULL,
   `IDTechnicien` int(11) DEFAULT NULL,
   PRIMARY KEY (`IDDeploiement`),
   UNIQUE KEY `IDDeploiement` (`IDDeploiement`),
   KEY `NumSerie` (`NumSerie`),
-  KEY `IDEntreprise` (`IDEntreprise`),
   KEY `IDTechnicien` (`IDTechnicien`),
   CONSTRAINT `Deploiement_ibfk_1` FOREIGN KEY (`NumSerie`) REFERENCES `Instance` (`NumSerie`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `Deploiement_ibfk_2` FOREIGN KEY (`IDEntreprise`) REFERENCES `Entreprise` (`IDEntreprise`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `Deploiement_ibfk_3` FOREIGN KEY (`IDTechnicien`) REFERENCES `Technicien` (`IDTechnicien`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -213,18 +210,18 @@ CREATE TABLE `Deploiement` (
 LOCK TABLES `Deploiement` WRITE;
 /*!40000 ALTER TABLE `Deploiement` DISABLE KEYS */;
 INSERT INTO `Deploiement` VALUES
-(1,'123 Peachtree Street NE, Atlanta, GA 30303, USA','2024-06-10','CD142ZE',7,1),
-(2,'500 Woodward Avenue, Detroit, MI 48226, USA','2023-12-24','HY698XS',8,2),
-(3,'10 Rue de Rivoli, 75004 Paris, France','2022-01-15','LG627ER',9,4),
-(4,'15 Avenue Montaigne, 75008 Paris, France','2024-02-23','FC287W',10,4),
-(5,'32 Rue des Archives, 75004 Paris, France','2023-08-21','NJ987PL',11,3),
-(6,'12 Rue de l\'Église, 92320 Châtillon, France','2023-04-12','NX200DF',12,1),
-(7,'233 S Wacker Dr, Chicago, IL 60606, USA','2021-02-15','SQ732RE',13,2),
-(8,'701 5th Ave, Seattle, WA 98104, USA','2021-05-20','FT814TY',14,4),
-(9,'500 S Buena Vista St, Burbank, CA 91521, USA','2023-03-15','PM701ZM',15,1),
-(10,'100 Winchester Circle, Los Gatos, CA 95032, USA','2023-11-28','FO346RW',16,2),
-(11,'1 Rocket Road, Hawthorne, CA 90250, USA','2022-04-30','EP466SZ',17,3),
-(12,'3055 Clearview Way, San Mateo, CA 94402, USA','2021-08-10','UH944SU',18,3);
+(1,'123 Peachtree Street NE, Atlanta, GA 30303, USA','2024-06-10','CD142ZE',1),
+(2,'500 Woodward Avenue, Detroit, MI 48226, USA','2023-12-24','HY698XS',2),
+(3,'10 Rue de Rivoli, 75004 Paris, France','2022-01-15','LG627ER',4),
+(4,'15 Avenue Montaigne, 75008 Paris, France','2024-02-23','FC287W',4),
+(5,'32 Rue des Archives, 75004 Paris, France','2023-08-21','NJ987PL',3),
+(6,'12 Rue de l\'Église, 92320 Châtillon, France','2023-04-12','NX200DF',1),
+(7,'233 S Wacker Dr, Chicago, IL 60606, USA','2021-02-15','SQ732RE',2),
+(8,'701 5th Ave, Seattle, WA 98104, USA','2021-05-20','FT814TY',4),
+(9,'500 S Buena Vista St, Burbank, CA 91521, USA','2023-03-15','PM701ZM',1),
+(10,'100 Winchester Circle, Los Gatos, CA 95032, USA','2023-11-28','FO346RW',2),
+(11,'1 Rocket Road, Hawthorne, CA 90250, USA','2022-04-30','EP466SZ',3),
+(12,'3055 Clearview Way, San Mateo, CA 94402, USA','2021-08-10','UH944SU',3);
 /*!40000 ALTER TABLE `Deploiement` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -317,7 +314,6 @@ CREATE TABLE `Entreprise` (
   `AdresseSiege` varchar(255) DEFAULT NULL,
   `SIRET` varchar(255) DEFAULT NULL,
   `ContactPrincipal` varchar(255) DEFAULT NULL,
-  `IDDeploiement` int(11) DEFAULT NULL,
   PRIMARY KEY (`IDEntreprise`),
   UNIQUE KEY `IDEntreprise` (`IDEntreprise`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -330,24 +326,24 @@ CREATE TABLE `Entreprise` (
 LOCK TABLES `Entreprise` WRITE;
 /*!40000 ALTER TABLE `Entreprise` DISABLE KEYS */;
 INSERT INTO `Entreprise` VALUES
-(1,'NFL-IT','1234 Rue Kansas City, Kansas City, MO, États-Unis','12345678901234','john.smith@nfl-it.com',NULL),
-(2,'Google France','8 Rue de Londres, 75009 Paris, France','44306184100043','contact@google.fr',NULL),
-(3,'Amazon France','67 Boulevard du Général Leclerc, 92110 Clichy, France','43180379000049','contact@amazon.fr',NULL),
-(4,'Microsoft Corporation','One Microsoft Way, Redmond, WA 98052, États-Unis','77566230700090','contact@microsoft.com',NULL),
-(5,'Apple Inc','One Apple Park Way, Cupertino, CA 95014, États-Unis','61685464700017','contact@apple.com',NULL),
-(6,'Tesla France','18 Rue de l\'Université, 75007 Paris, France','80522538500019','contact@tesla.fr',NULL),
-(7,'Atlanta Falcon','1 Letterman Dr, Atlanta, USA','98765432101234','george.lucas@falcon.com',NULL),
-(8,'Detroit Lions','1200 Park Ave, Detroit, USA','87654321012345','ed.catmull@detroit.com',NULL),
-(9,'Carrefour','93 Avenue de Paris, 91300 Massy, France','38456067800035','pierre.durand@carrefour.com',NULL),
-(10,'BNP Paribas','16 Boulevard des Italiens, 75009 Paris, France','54201607400089','marie.curie@bnpparibas.com',NULL),
-(11,'L\'Oréal','41 Rue Martre, 92110 Clichy, France','63201210000150','sophie.martin@loreal.com',NULL),
-(12,'Renault','13-15 Quai Alphonse le Gallo, 92100 Boulogne-Billancourt, France','78012998712345','jean.valjean@renault.com',NULL),
-(13,'Boeing','100 N Riverside Plaza, Chicago, IL 60606, USA','12345678912345','alice.jones@boeing.com',NULL),
-(14,'Starbucks','2401 Utah Ave S, Seattle, WA 98134, USA','23456789123456','bob.smith@starbucks.com',NULL),
-(15,'Walt Disney Company','500 S Buena Vista St, Burbank, CA 91521, USA','34567891234567','mickey.mouse@disney.com',NULL),
-(16,'Netflix','100 Winchester Cir, Los Gatos, CA 95032, USA','45678912345678','reed.hastings@netflix.com',NULL),
-(17,'SpaceX','1 Rocket Rd, Hawthorne, CA 90250, USA','56789123456789','elon.musk@spacex.com',NULL),
-(18,'SolarCity','3055 Clearview Way, San Mateo, CA 94402, USA','67891234567890','lyndon.rive@solarcity.com',NULL);
+(1,'NFL-IT','1234 Rue Kansas City, Kansas City, MO, États-Unis','12345678901234','john.smith@nfl-it.com'),
+(2,'Google France','8 Rue de Londres, 75009 Paris, France','44306184100043','contact@google.fr'),
+(3,'Amazon France','67 Boulevard du Général Leclerc, 92110 Clichy, France','43180379000049','contact@amazon.fr'),
+(4,'Microsoft Corporation','One Microsoft Way, Redmond, WA 98052, États-Unis','77566230700090','contact@microsoft.com'),
+(5,'Apple Inc','One Apple Park Way, Cupertino, CA 95014, États-Unis','61685464700017','contact@apple.com'),
+(6,'Tesla France','18 Rue de l\'Université, 75007 Paris, France','80522538500019','contact@tesla.fr'),
+(7,'Atlanta Falcon','1 Letterman Dr, Atlanta, USA','98765432101234','george.lucas@falcon.com'),
+(8,'Detroit Lions','1200 Park Ave, Detroit, USA','87654321012345','ed.catmull@detroit.com'),
+(9,'Carrefour','93 Avenue de Paris, 91300 Massy, France','38456067800035','pierre.durand@carrefour.com'),
+(10,'BNP Paribas','16 Boulevard des Italiens, 75009 Paris, France','54201607400089','marie.curie@bnpparibas.com'),
+(11,'L\'Oréal','41 Rue Martre, 92110 Clichy, France','63201210000150','sophie.martin@loreal.com'),
+(12,'Renault','13-15 Quai Alphonse le Gallo, 92100 Boulogne-Billancourt, France','78012998712345','jean.valjean@renault.com'),
+(13,'Boeing','100 N Riverside Plaza, Chicago, IL 60606, USA','12345678912345','alice.jones@boeing.com'),
+(14,'Starbucks','2401 Utah Ave S, Seattle, WA 98134, USA','23456789123456','bob.smith@starbucks.com'),
+(15,'Walt Disney Company','500 S Buena Vista St, Burbank, CA 91521, USA','34567891234567','mickey.mouse@disney.com'),
+(16,'Netflix','100 Winchester Cir, Los Gatos, CA 95032, USA','45678912345678','reed.hastings@netflix.com'),
+(17,'SpaceX','1 Rocket Rd, Hawthorne, CA 90250, USA','56789123456789','elon.musk@spacex.com'),
+(18,'SolarCity','3055 Clearview Way, San Mateo, CA 94402, USA','67891234567890','lyndon.rive@solarcity.com');
 /*!40000 ALTER TABLE `Entreprise` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -369,16 +365,13 @@ CREATE TABLE `Instance` (
   `NumeroLicence` varchar(255) DEFAULT NULL,
   `MaterielFourniParNFL` tinyint(1) DEFAULT NULL,
   `MaterielRecupere` tinyint(1) DEFAULT NULL,
-  `IDDeploiement` int(11) DEFAULT NULL,
   `IDEntrepriseClient` int(11) DEFAULT NULL,
   `IDConf` int(11) DEFAULT NULL,
   PRIMARY KEY (`NumSerie`),
   UNIQUE KEY `NumSerie` (`NumSerie`),
-  KEY `IDDeploiement` (`IDDeploiement`),
   KEY `IDEntreprise` (`IDEntrepriseClient`),
   KEY `Instance_Conf_FK` (`IDConf`),
   CONSTRAINT `Instance_Conf_FK` FOREIGN KEY (`IDConf`) REFERENCES `Conf` (`IDConf`),
-  CONSTRAINT `Instance_ibfk_2` FOREIGN KEY (`IDDeploiement`) REFERENCES `Deploiement` (`IDDeploiement`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `Instance_ibfk_3` FOREIGN KEY (`IDEntrepriseClient`) REFERENCES `Entreprise` (`IDEntreprise`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -390,18 +383,18 @@ CREATE TABLE `Instance` (
 LOCK TABLES `Instance` WRITE;
 /*!40000 ALTER TABLE `Instance` DISABLE KEYS */;
 INSERT INTO `Instance` VALUES
-('CD142ZE','HarvesterAtlanta','192.168.1.10','10.0.10.1','V2.0','Debian 12.5','Connectée','59731542',1,0,1,7,2),
-('EP466SZ','HarvesterSpaceX','192.168.80.148','10.0.25.58','V3.7','Windows 10','Connectée','17457420',1,0,11,17,10),
-('FC287W','HarvesterBNPParibas','192.168.10.9','10.0.0.12','V1.0','Debian 11','Connectée','12486970',1,0,4,10,4),
-('FO346RW','HarvesterNetflix','192.168.99.45','10.0.9.15','V3.6','Windows 11','Connectée','69364710',1,0,10,16,11),
-('FT814TY','HarvesterStarbucks','192.168.36.29','10.0.0.28','V1.2','Debian 11','Connectée','65632587',1,0,8,14,8),
-('HY698XS','HarvesterDetroit','192.168.20.47','10.0.0.20','V2.2','Windows 10','Connectée','24835572',1,0,2,8,1),
-('LG627ER','HarvesterCarrefour','192.168.14.10','10.0.0.30','V1.4','Windows 11','Connectée','41387447',1,1,3,9,3),
-('NJ987PL','HarvesterLoreal','192.168.9.17','10.0.0.17','V5','Windows 10','Connectée','95124384',1,0,5,11,5),
-('NX200DF','HarvesterRenault','192.168.80.100','10.0.10.4','V1.4.5','Windows 10','Connectée','74654582',1,0,6,12,7),
-('PM701ZM','HarvesterDisney','192.168.40.187','10.0.0.59','V1','Debian 12.5','Connectée','79544832',1,0,9,15,9),
-('SQ732RE','HarvesterBoeing','192.168.60.25','10.0.74.25','V3.1','Debian 12.5','Connectée','28498699',1,1,7,13,6),
-('UH944SU','HarvesterSolarCity','192.168.11.57','10.0.68.99','V2.4.1','Debian 11','Connectée','98524739',1,1,12,18,12);
+('CD142ZE','HarvesterAtlanta','192.168.1.10','10.0.10.1','V2.0','Debian 12.5','Connectée','59731542',1,0,7,2),
+('EP466SZ','HarvesterSpaceX','192.168.80.148','10.0.25.58','V3.7','Windows 10','Connectée','17457420',1,0,17,10),
+('FC287W','HarvesterBNPParibas','192.168.10.9','10.0.0.12','V1.0','Debian 11','Connectée','12486970',1,0,10,4),
+('FO346RW','HarvesterNetflix','192.168.99.45','10.0.9.15','V3.6','Windows 11','Connectée','69364710',1,0,16,11),
+('FT814TY','HarvesterStarbucks','192.168.36.29','10.0.0.28','V1.2','Debian 11','Connectée','65632587',1,0,14,8),
+('HY698XS','HarvesterDetroit','192.168.20.47','10.0.0.20','V2.2','Windows 10','Connectée','24835572',1,0,8,1),
+('LG627ER','HarvesterCarrefour','192.168.14.10','10.0.0.30','V1.4','Windows 11','Connectée','41387447',1,1,9,3),
+('NJ987PL','HarvesterLoreal','192.168.9.17','10.0.0.17','V5','Windows 10','Connectée','95124384',1,0,11,5),
+('NX200DF','HarvesterRenault','192.168.80.100','10.0.10.4','V1.4.5','Windows 10','Connectée','74654582',1,0,12,7),
+('PM701ZM','HarvesterDisney','192.168.40.187','10.0.0.59','V1','Debian 12.5','Connectée','79544832',1,0,15,9),
+('SQ732RE','HarvesterBoeing','192.168.60.25','10.0.74.25','V3.1','Debian 12.5','Connectée','28498699',1,1,13,6),
+('UH944SU','HarvesterSolarCity','192.168.11.57','10.0.68.99','V2.4.1','Debian 11','Connectée','98524739',1,1,18,12);
 /*!40000 ALTER TABLE `Instance` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -514,7 +507,7 @@ CREATE TABLE `Redemarrage` (
   UNIQUE KEY `IDRedemarrage` (`IDRedemarrage`),
   KEY `NumSerie` (`NumSerie`),
   CONSTRAINT `Redemarrage_ibfk_1` FOREIGN KEY (`NumSerie`) REFERENCES `Instance` (`NumSerie`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -524,7 +517,13 @@ CREATE TABLE `Redemarrage` (
 LOCK TABLES `Redemarrage` WRITE;
 /*!40000 ALTER TABLE `Redemarrage` DISABLE KEYS */;
 INSERT INTO `Redemarrage` VALUES
-(1,'2024-04-16 15:17:46','Redémarrage suite à l\'arret du Harvester','PM701ZM');
+(1,'2024-04-16 15:17:46','Redémarrage suite à l\'arret du Harvester','PM701ZM'),
+(2,'2024-04-02 11:12:34','Redémarrage suite à la mise à jour du système pour appliquer les nouvelles modifications.','PM701ZM'),
+(3,'2024-03-28 08:54:22','Redémarrage planifié pour effectuer une maintenance périodique du système.','PM701ZM'),
+(4,'2024-02-02 23:02:20','Redémarrage nécessaire suite à des changements majeurs dans la configuration du système ou des logiciels.','PM701ZM'),
+(5,'2024-01-20 17:56:58','Redémarrage pour résoudre une panne matérielle détectée et réinitialiser les composants affectés.','PM701ZM'),
+(6,'2024-01-15 19:29:19','Redémarrage pour résoudre des problèmes de performance et restaurer le fonctionnement optimal du système.','PM701ZM'),
+(7,'2023-12-10 12:08:13','Redémarrage suite à l\'arret du Harvester','NJ987PL');
 /*!40000 ALTER TABLE `Redemarrage` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -596,6 +595,37 @@ UNLOCK TABLES;
 --
 -- Dumping routines for database 'MSPR'
 --
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `getRestartNumber` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`%` PROCEDURE `getRestartNumber`()
+BEGIN
+    SELECT
+        i.NumSerie,
+        i.Nom,
+        COUNT(r.IDRedemarrage) AS nombre_de_redemarrages
+    FROM
+        Instance i
+    JOIN Redemarrage r ON
+        i.NumSerie = r.NumSerie
+    GROUP BY
+        i.NumSerie,
+        i.Nom
+    HAVING
+        COUNT(r.IDRedemarrage) > 5;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -606,4 +636,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-20 11:34:17
+-- Dump completed on 2024-06-26 21:00:47
