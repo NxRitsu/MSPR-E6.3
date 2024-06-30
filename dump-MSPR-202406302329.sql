@@ -27,7 +27,7 @@ CREATE TABLE `ClientFinal` (
   `IDEntreprise` int(11) DEFAULT NULL,
   PRIMARY KEY (`IDClientFinal`),
   UNIQUE KEY `IDClientFinal` (`IDClientFinal`),
-  KEY `IDEntreprise` (`IDEntreprise`),
+  KEY `idx_clientfinal_identreprise` (`IDEntreprise`),
   CONSTRAINT `ClientFinal_ibfk_1` FOREIGN KEY (`IDEntreprise`) REFERENCES `Entreprise` (`IDEntreprise`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -67,8 +67,8 @@ CREATE TABLE `ClientPrestataire` (
   `IDPrestataire` int(11) DEFAULT NULL,
   PRIMARY KEY (`IDClientPrestataire`),
   UNIQUE KEY `IDClientPrestataire` (`IDClientPrestataire`),
-  KEY `IDPrestataire` (`IDPrestataire`),
-  KEY `IDClientFinal` (`IDClientFinal`),
+  KEY `idx_clientprestataire_idclientfinal` (`IDClientFinal`),
+  KEY `idx_clientprestataire_idprestataire` (`IDPrestataire`),
   CONSTRAINT `ClientPrestataire_ibfk_1` FOREIGN KEY (`IDPrestataire`) REFERENCES `Prestataire` (`IDPrestataire`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `ClientPrestataire_ibfk_2` FOREIGN KEY (`IDClientFinal`) REFERENCES `ClientFinal` (`IDClientFinal`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -152,8 +152,8 @@ CREATE TABLE `Contrat` (
   `NumSerie` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`IDContrat`),
   UNIQUE KEY `IDContrat` (`IDContrat`),
-  KEY `NumSerie` (`NumSerie`),
-  KEY `IDEntreprise` (`IDEntreprise`),
+  KEY `idx_contrat_identreprise` (`IDEntreprise`),
+  KEY `idx_contrat_numserie` (`NumSerie`),
   CONSTRAINT `Contrat_ibfk_1` FOREIGN KEY (`NumSerie`) REFERENCES `Instance` (`NumSerie`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `Contrat_ibfk_2` FOREIGN KEY (`IDEntreprise`) REFERENCES `Entreprise` (`IDEntreprise`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -196,8 +196,8 @@ CREATE TABLE `Deploiement` (
   `IDTechnicien` int(11) DEFAULT NULL,
   PRIMARY KEY (`IDDeploiement`),
   UNIQUE KEY `IDDeploiement` (`IDDeploiement`),
-  KEY `NumSerie` (`NumSerie`),
-  KEY `IDTechnicien` (`IDTechnicien`),
+  KEY `idx_deploiement_numserie` (`NumSerie`),
+  KEY `idx_deploiement_idtechnicien` (`IDTechnicien`),
   CONSTRAINT `Deploiement_ibfk_1` FOREIGN KEY (`NumSerie`) REFERENCES `Instance` (`NumSerie`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `Deploiement_ibfk_3` FOREIGN KEY (`IDTechnicien`) REFERENCES `Technicien` (`IDTechnicien`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -282,8 +282,8 @@ CREATE TABLE `Dysfonctionnement` (
   `IDTechnicien` int(11) DEFAULT NULL,
   PRIMARY KEY (`IDDysfonctionnement`),
   UNIQUE KEY `IDDysfonctionnement` (`IDDysfonctionnement`),
-  KEY `IDTechnicien` (`IDTechnicien`),
-  KEY `NumSerie` (`NumSerie`),
+  KEY `idx_dysfonctionnement_numserie` (`NumSerie`),
+  KEY `idx_dysfonctionnement_idtechnicien` (`IDTechnicien`),
   CONSTRAINT `Dysfonctionnement_ibfk_1` FOREIGN KEY (`IDTechnicien`) REFERENCES `Technicien` (`IDTechnicien`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `Dysfonctionnement_ibfk_2` FOREIGN KEY (`NumSerie`) REFERENCES `Instance` (`NumSerie`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -348,6 +348,29 @@ INSERT INTO `Entreprise` VALUES
 UNLOCK TABLES;
 
 --
+-- Temporary table structure for view `GoogleFrance`
+--
+
+DROP TABLE IF EXISTS `GoogleFrance`;
+/*!50001 DROP VIEW IF EXISTS `GoogleFrance`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `GoogleFrance` AS SELECT
+ 1 AS `NumSerie`,
+  1 AS `Nom`,
+  1 AS `AdresseIPDefaut`,
+  1 AS `AdresseIPVPN`,
+  1 AS `VersionApplication`,
+  1 AS `VersionOS`,
+  1 AS `Etat`,
+  1 AS `NumeroLicence`,
+  1 AS `MaterielFourniParNFL`,
+  1 AS `MaterielRecupere`,
+  1 AS `IDEntrepriseClient`,
+  1 AS `IDConf` */;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Table structure for table `Instance`
 --
 
@@ -369,8 +392,8 @@ CREATE TABLE `Instance` (
   `IDConf` int(11) DEFAULT NULL,
   PRIMARY KEY (`NumSerie`),
   UNIQUE KEY `NumSerie` (`NumSerie`),
-  KEY `IDEntreprise` (`IDEntrepriseClient`),
-  KEY `Instance_Conf_FK` (`IDConf`),
+  KEY `idx_instance_identrepriseclient` (`IDEntrepriseClient`),
+  KEY `idx_instance_idconf` (`IDConf`),
   CONSTRAINT `Instance_Conf_FK` FOREIGN KEY (`IDConf`) REFERENCES `Conf` (`IDConf`),
   CONSTRAINT `Instance_ibfk_3` FOREIGN KEY (`IDEntrepriseClient`) REFERENCES `Entreprise` (`IDEntreprise`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -626,6 +649,24 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Final view structure for view `GoogleFrance`
+--
+
+/*!50001 DROP VIEW IF EXISTS `GoogleFrance`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `GoogleFrance` AS select `i`.`NumSerie` AS `NumSerie`,`i`.`Nom` AS `Nom`,`i`.`AdresseIPDefaut` AS `AdresseIPDefaut`,`i`.`AdresseIPVPN` AS `AdresseIPVPN`,`i`.`VersionApplication` AS `VersionApplication`,`i`.`VersionOS` AS `VersionOS`,`i`.`Etat` AS `Etat`,`i`.`NumeroLicence` AS `NumeroLicence`,`i`.`MaterielFourniParNFL` AS `MaterielFourniParNFL`,`i`.`MaterielRecupere` AS `MaterielRecupere`,`i`.`IDEntrepriseClient` AS `IDEntrepriseClient`,`i`.`IDConf` AS `IDConf` from (((((`Instance` `i` join `Entreprise` `e` on(`i`.`IDEntrepriseClient` = `e`.`IDEntreprise`)) join `ClientFinal` `cf` on(`e`.`IDEntreprise` = `cf`.`IDEntreprise`)) join `ClientPrestataire` `cp` on(`cf`.`IDClientFinal` = `cp`.`IDClientFinal`)) join `Prestataire` `p` on(`cp`.`IDPrestataire` = `p`.`IDPrestataire`)) join `Deploiement` `d` on(`i`.`NumSerie` = `d`.`NumSerie`)) where `p`.`IDPrestataire` = 5 */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -636,4 +677,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-26 21:00:47
+-- Dump completed on 2024-06-30 23:29:48
