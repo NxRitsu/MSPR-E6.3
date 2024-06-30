@@ -45,39 +45,20 @@ WHERE c.DatePeremption < NOW()
   JOIN ClientFinal c ON cont.IDEntreprise = c.IDEntreprise
   JOIN `Instance` i ON i.NumSerie = d.NumSerie
   JOIN Entreprise e ON i.IDEntrepriseClient = e.IDEntreprise WHERE i.NumSerie = 'NJ987PL'
-  AND t.IDTechnicien = d.IDTechnicien -- Trigger ou procédure stockée permettant de lister les instances qui ont été redémarrées manuellement plus de 5 fois
+  AND t.IDTechnicien = d.IDTechnicien 
+       
+-- Trigger ou procédure stockée permettant de lister les instances qui ont été redémarrées manuellement plus de 5 fois
 
   DELIMITER $$
-
-CREATE PROCEDURE getRestartNumber ()
-
-BEGIN
-
-SELECT
-
-i.NumSerie,
-
-i.Nom,
-
-COUNT(r.IDRedemarrage) AS nombre_de_redemarrages
-
-FROM
-
-Instance i
-
-JOIN Redemarrage r ON
-
-i.NumSerie = r.NumSerie
-
-GROUP BY
-
-i.NumSerie,
-
-i.Nom
-
-HAVING
-
-COUNT(r.IDRedemarrage) > 5;
+CREATE PROCEDURE getRestartNumber () BEGIN
+SELECT i.NumSerie,
+       i.Nom,
+       COUNT(r.IDRedemarrage) AS nombre_de_redemarrages
+FROM INSTANCE i
+JOIN Redemarrage r ON i.NumSerie = r.NumSerie
+GROUP BY i.NumSerie,
+         i.Nom
+HAVING COUNT(r.IDRedemarrage) > 5;
 
 END $$
   DELIMITER ;
