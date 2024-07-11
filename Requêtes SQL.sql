@@ -63,35 +63,3 @@ HAVING COUNT(r.IDRedemarrage) > 5;
 END $$
   DELIMITER ;
 
--- Liste des utilisateurs ayant accès à la base de données "MSPR" ainsi que leurs droits
-
-SELECT
-    user,
-    host,
-    db,
-    CONCAT(
-        'SELECT: ', IF(Select_priv = 'Y', 'Yes', 'No'), ', ',
-        'INSERT: ', IF(Insert_priv = 'Y', 'Yes', 'No'), ', ',
-        'UPDATE: ', IF(Update_priv = 'Y', 'Yes', 'No'), ', ',
-        'DELETE: ', IF(Delete_priv = 'Y', 'Yes', 'No'), ', ',
-        'CREATE: ', IF(Create_priv = 'Y', 'Yes', 'No'), ', ',
-        'DROP: ', IF(Drop_priv = 'Y', 'Yes', 'No'), ', ',
-        'GRANT: ', IF(Grant_priv = 'Y', 'Yes', 'No'), ', ',
-        'REFERENCES: ', IF(References_priv = 'Y', 'Yes', 'No'), ', ',
-        'INDEX: ', IF(Index_priv = 'Y', 'Yes', 'No'), ', ',
-        'ALTER: ', IF(Alter_priv = 'Y', 'Yes', 'No'), ', ',
-        'CREATE TEMPORARY TABLES: ', IF(Create_tmp_table_priv = 'Y', 'Yes', 'No'), ', ',
-        'LOCK TABLES: ', IF(Lock_tables_priv = 'Y', 'Yes', 'No'), ', ',
-        'CREATE VIEW: ', IF(Create_view_priv = 'Y', 'Yes', 'No'), ', ',
-        'SHOW VIEW: ', IF(Show_view_priv = 'Y', 'Yes', 'No'), ', ',
-        'CREATE ROUTINE: ', IF(Create_routine_priv = 'Y', 'Yes', 'No'), ', ',
-        'ALTER ROUTINE: ', IF(Alter_routine_priv = 'Y', 'Yes', 'No'), ', ',
-        'EXECUTE: ', IF(Execute_priv = 'Y', 'Yes', 'No'), ', ',
-        'EVENT: ', IF(Event_priv = 'Y', 'Yes', 'No'), ', ',
-        'TRIGGER: ', IF(Trigger_priv = 'Y', 'Yes', 'No')
-    ) AS privileges
-FROM
-    mysql.db
-WHERE
-    db = 'MSPR';
-
